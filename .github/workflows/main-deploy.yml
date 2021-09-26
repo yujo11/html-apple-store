@@ -10,9 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: S3 Clear
+        run: aws s3 rb s3://apple-clone-yujo --force
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
+
       - name: S3 Sync
         run: aws s3 sync src s3://apple-clone-yujo --region "ap-northeast-2"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: "src"
